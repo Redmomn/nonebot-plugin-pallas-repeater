@@ -17,6 +17,7 @@ KEY_JOINER = '.'
 
 
 class PluginConfig(BaseModel, extra=Extra.ignore):
+    is_nb_store_testing: bool = False
     # 黑名单，会导致所有插件都不能响应该用户的命令
     blacklist: List[int] = []
     # 默认轮盘模式
@@ -78,7 +79,7 @@ class Config(ABC):
 
     @classmethod
     def _get_config_mongo(cls) -> Collection:
-        if cls._config_mongo is None:
+        if cls._config_mongo is None and not plugin_config.is_nb_store_testing:
             if plugin_config.mongo_user == '' or plugin_config.mongo_password == '':
                 mongo_client = pymongo.MongoClient(
                     plugin_config.mongo_host, plugin_config.mongo_port, unicode_decode_error_handler='ignore')
