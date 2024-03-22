@@ -1,7 +1,16 @@
 from nonebot.plugin import PluginMetadata
+from nonebot.log import logger
+from . import block, drink
+from .config import PluginConfig, plugin_config
 
-from . import block, drink, repeater, take_name
-from .config import PluginConfig
+if plugin_config.is_nb_store_testing:
+    try:
+        from . import repeater, take_name
+    except:
+        logger.warning('repeater, take_name 插件未加载')
+        pass
+else:
+    from . import repeater, take_name
 
 __plugin_meta__ = PluginMetadata(
     name="nonebot-plugin-pallas-repeater",
