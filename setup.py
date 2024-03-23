@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='nonebot_plugin_pallas_repeater',
-    version='0.1.2',
+    version='0.1.3',
     packages=find_packages(),
     install_requires=[
         'nonebot-adapter-onebot>=2.0.0',
