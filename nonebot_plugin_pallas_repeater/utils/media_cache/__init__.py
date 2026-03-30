@@ -6,7 +6,17 @@ from typing import Optional
 import httpx
 import pymongo
 
-mongo_client = pymongo.MongoClient('127.0.0.1', 27017)
+from ...config import plugin_config
+
+if plugin_config.mongo_user == '' or plugin_config.mongo_password == '':
+    mongo_client = pymongo.MongoClient(
+        plugin_config.mongo_host, plugin_config.mongo_port, unicode_decode_error_handler='ignore')
+else:
+    mongo_client = pymongo.MongoClient(
+        f'mongodb://{plugin_config.mongo_user}:{plugin_config.mongo_password}'
+        f'@{plugin_config.mongo_host}:{plugin_config.mongo_port}',
+        unicode_decode_error_handler='ignore'
+    )
 mongo_db = mongo_client['PallasBot']
 
 image_cache = mongo_db['image_cache']
